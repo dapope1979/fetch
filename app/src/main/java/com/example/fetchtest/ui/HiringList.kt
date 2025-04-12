@@ -12,24 +12,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fetchtest.HiringListViewModel
-import com.example.fetchtest.ui.theme.FetchTestTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fetchtest.HiringList
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HiringList(modifier: Modifier = Modifier, viewModel: HiringListViewModel = viewModel()) {
-
-    val sections = viewModel.hiringList.observeAsState(emptyList()).value
+fun HiringList(modifier: Modifier = Modifier) {
+    // TODO: Use DI to inject viewModel
+    // (I omitted these for the sake of completing the assignment)
+    val viewModel: HiringListViewModel = viewModel()
+    val sections = viewModel.hiringList.observeAsState(emptyList<HiringList>())
 
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
     ) {
-        sections.forEach { section ->
+        sections.value?.forEach { section ->
             stickyHeader {
                 Text(
                     text = "List ${section.id}",
@@ -59,13 +59,5 @@ fun HiringListItem(text: String, modifier: Modifier = Modifier) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(text = text)
-    }
-}
-
-@Composable
-@Preview(showBackground = true, heightDp = 480)
-fun HiringListPreview() {
-    FetchTestTheme {
-        HiringList()
     }
 }

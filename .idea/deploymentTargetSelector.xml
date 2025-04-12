@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="FetchTest.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-04-12T16:34:46.556714285Z">
+        <DropdownSelection timestamp="2025-04-12T20:45:31.557867853Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/home/npope/.var/app/com.google.AndroidStudio/config/.android/avd/Pixel_9.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/home/npope/.var/app/com.google.AndroidStudio/config/.android/avd/Pixel_6_Pro.avd" />
             </handle>
           </Target>
         </DropdownSelection>

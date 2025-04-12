@@ -1,22 +1,23 @@
 package com.example.fetchtest
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
-data class HiringItem(val id: Int, val listId: Int, val name: String)
-data class HiringList(val id: Int, val items: List<HiringItem>)
-
-class HiringListViewModel : ViewModel() {
-    private val _hiringList = MutableLiveData<List<HiringList>>()
-    val hiringList: LiveData<List<HiringList>> = _hiringList
+// TODO: Simple tests to ensure that hiringList is populated correctly
+// TODO: Use DI to inject repository
+// (I omitted these for the sake of completing the assignment)
+class HiringListViewModel() : ViewModel() {
+    private val repository = HiringDataRepository()
+    private var _hiringList: MutableLiveData<List<HiringList>> = MutableLiveData()
+    val hiringList: MutableLiveData<List<HiringList>>
+        get() = _hiringList
 
     init {
-        _hiringList.value = listOf(
-            HiringList(1, listOf<Int>(1, 2, 3).map { HiringItem(it, 1, "Item $it") }),
-            HiringList(2, listOf(4, 5, 6).map { HiringItem(it, 2, "Item $it") }),
-            HiringList(3, listOf(7, 8, 9).map { HiringItem(it, 3, "Item $it") }),
-        )
+        viewModelScope.launch {
+            val latestList = repository.getHiringData()
+            _hiringList.postValue(latestList)
+        }
     }
-
 }
