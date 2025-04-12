@@ -10,23 +10,29 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.fetchtest.HiringListViewModel
 import com.example.fetchtest.ui.theme.FetchTestTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HiringList(modifier: Modifier = Modifier) {
-    val sections = listOf("A", "B", "C", "D", "E", "F", "G")
+fun HiringList(modifier: Modifier = Modifier, viewModel: HiringListViewModel = viewModel()) {
 
-    LazyColumn(modifier = modifier
-        .fillMaxWidth()
-        .padding(vertical = 8.dp)) {
+    val sections = viewModel.hiringList.observeAsState(emptyList()).value
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
         sections.forEach { section ->
             stickyHeader {
                 Text(
-                    text = "Section $section",
+                    text = "List ${section.id}",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -34,8 +40,11 @@ fun HiringList(modifier: Modifier = Modifier) {
                         .padding(8.dp)
                 )
             }
-            items(10) {
-                HiringListItem("Item $it from the section $section")
+
+            section.items.forEach {
+                item {
+                    HiringListItem(it.name)
+                }
             }
         }
     }
